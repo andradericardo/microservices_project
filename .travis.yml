@@ -16,11 +16,9 @@ before_install:
     - sudo mv ./kubectl /usr/local/bin/kubectl
 
 install: 
-    - docker-compose -f deployment/docker/docker-compose-build.yaml build --parallel 
+    - docker-compose -f deployment/docker/docker-compose-build.yaml build --parallel
+    
 
 after_success:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push oliveiraandrade/project_user
-  - docker push oliveiraandrade/project_feed
-  - docker push oliveiraandrade/project_frontend
-  - docker push oliveiraandrade/project_reverseproxy
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker-compose -f deployment/docker/docker-compose-build.yaml push
